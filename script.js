@@ -1,6 +1,3 @@
-// ===============================
-// CONFIGURAÇÃO DE NÍVEIS
-// ===============================
 const LEVEL_TYPES = {
   CLEAR_ALL: "clear_all",
   TIME_ATTACK: "time_attack"
@@ -10,8 +7,8 @@ const levels = [
   {
     id: 1,
     type: LEVEL_TYPES.CLEAR_ALL,
-    totalBlocks: 10, // 👈 objetivo do nível
-    colors: { red: 1 },
+    totalBlocks: 10,
+    colors: { red: 1},
     timeLimit: null
   },
   {
@@ -30,22 +27,13 @@ const levels = [
   }
 ];
 
-// ===============================
-// ELEMENTOS DOM
-// ===============================
 const game = document.getElementById("game");
 const controls = document.getElementById("controls");
 
-// ===============================
-// CONSTANTES
-// ===============================
 const SIZE = 28;
 const speed = 0.5;
 const projectileSpeed = 5;
 
-// ===============================
-// ESTADO DO JOGO
-// ===============================
 let stack = [];
 let projectiles = [];
 let gameOver = false;
@@ -53,13 +41,10 @@ let gameOver = false;
 let currentLevelIndex = 0;
 let currentLevel = null;
 
-let blocksToClear = 0;   // 🎯 O QUE O HUD MOSTRA
+let blocksToClear = 0;
 let timeLeft = 0;
 let levelTimer = null;
 
-// ===============================
-// HUD
-// ===============================
 function formatTime(seconds) {
   const m = String(Math.floor(seconds / 60)).padStart(2, "0");
   const s = String(seconds % 60).padStart(2, "0");
@@ -83,9 +68,7 @@ function updateHUD() {
   }
 }
 
-// ===============================
-// COLISÃO COM DANGER LINE
-// ===============================
+
 function touchesDangerLine(squareEl) {
   const squareRect = squareEl.getBoundingClientRect();
   const dangerRect = document
@@ -95,9 +78,6 @@ function touchesDangerLine(squareEl) {
   return squareRect.bottom >= dangerRect.top;
 }
 
-// ===============================
-// BOTÕES DINÂMICOS
-// ===============================
 function generateButtons(level) {
   controls.innerHTML = "";
 
@@ -109,9 +89,6 @@ function generateButtons(level) {
   });
 }
 
-// ===============================
-// CARREGAR NÍVEL
-// ===============================
 function loadLevel(index) {
   stack.forEach(s => s.el.remove());
   projectiles.forEach(p => p.el.remove());
@@ -175,13 +152,8 @@ function spawnSquare() {
   game.appendChild(el);
 
   stack.push({ el, color, y: -30 });
-
-  // ❗ spawn NÃO mexe no contador
 }
 
-// ===============================
-// DISPARO
-// ===============================
 function shoot(color) {
   if (gameOver) return;
 
@@ -199,16 +171,10 @@ function shoot(color) {
   });
 }
 
-// ===============================
-// COLISÃO ENTRE BLOCOS
-// ===============================
 function rectsOverlap(a, b) {
   return a.y + SIZE >= b.y && a.y <= b.y + SIZE;
 }
 
-// ===============================
-// LOOP PRINCIPAL
-// ===============================
 function update() {
   if (gameOver) return;
 
@@ -222,8 +188,7 @@ function update() {
       return;
     }
   }
-
-  // projéteis
+  
   for (let i = projectiles.length - 1; i >= 0; i--) {
     const p = projectiles[i];
     p.y -= projectileSpeed;
@@ -235,12 +200,11 @@ function update() {
       if (rectsOverlap(p, head)) {
 
         if (p.color === head.color) {
-          // ✅ ACERTO
           explode(p.el);
           explode(head.el);
           stack.shift();
 
-          blocksToClear--;      // 🎯 progresso real
+          blocksToClear--;
           updateHUD();
 
           if (blocksToClear <= 0) {
@@ -248,14 +212,13 @@ function update() {
           }
 
         } else {
-          // ❌ ERRO
           stack.unshift({
             el: p.el,
             color: p.color,
             y: p.y
           });
 
-          blocksToClear++;      // 🎯 punição real
+          blocksToClear++;
           updateHUD();
         }
 
@@ -273,9 +236,6 @@ function update() {
   requestAnimationFrame(update);
 }
 
-// ===============================
-// EFEITOS
-// ===============================
 function explode(el) {
   el.style.transition = "transform 0.2s, opacity 0.2s";
   el.style.transform = "scale(1.5)";
@@ -283,9 +243,6 @@ function explode(el) {
   setTimeout(() => el.remove(), 200);
 }
 
-// ===============================
-// FIM / PRÓXIMO NÍVEL
-// ===============================
 function endGame() {
   gameOver = true;
   clearInterval(levelTimer);
@@ -304,9 +261,6 @@ function nextLevel() {
   loadLevel(currentLevelIndex);
 }
 
-// ===============================
-// INICIALIZAÇÃO
-// ===============================
 loadLevel(0);
 setInterval(spawnSquare, 1400);
 update();
