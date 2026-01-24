@@ -1,0 +1,158 @@
+/* ===============================
+   RESET / BASE
+================================ */
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  margin: 0;
+  background: #111;
+  display: flex;
+  justify-content: center;
+  height: 100vh;
+  padding-top: 48px; /* 👈 espaço da HUD */
+}
+
+/* ===============================
+   ÁREA DO JOGO
+================================ */
+#game {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  background: #1b1b1b;
+  overflow: hidden;
+}
+
+/* ===============================
+   HUD
+================================ */
+#hud {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 50px;
+
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+
+  align-items: center;
+  text-align: center;
+
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  z-index: 1000;
+}
+
+#hud > div {
+  white-space: nowrap;
+}
+
+/* ===============================
+   LINHA DE PERIGO
+================================ */
+#danger-line {
+  position: absolute;
+  bottom: 100px;
+  width: 100%;
+  height: 4px;
+  background: crimson;
+  z-index: 5;
+}
+
+/* ===============================
+   FIO CENTRAL
+================================ */
+#wire {
+  position: absolute;
+  top: 0;
+  bottom: 100px;
+  left: 50%;
+  width: 6px;
+  background: #999;
+  transform: translateX(-50%);
+}
+
+/* ===============================
+   BLOCOS
+================================ */
+.square {
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 6px;
+
+  border: 2px solid #fff;
+  background-clip: padding-box;
+}
+
+/* ===============================
+   CONTROLES
+================================ */
+#controls {
+  position: absolute;
+  bottom: 0;
+  height: 100px;
+  width: 100%;
+  background: #000;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  z-index: 10;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* ===============================
+   BOTÕES DE COR
+================================ */
+.color-btn {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: none;
+  outline: none;
+  cursor: pointer;
+
+  box-shadow:
+    inset 0 0 0 3px rgba(255,255,255,0.4),
+    0 4px 10px rgba(0,0,0,0.6);
+
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.color-btn:active {
+  transform: scale(0.9);
+  box-shadow:
+    inset 0 0 0 3px rgba(255,255,255,0.6),
+    0 2px 6px rgba(0,0,0,0.8);
+}
+
+/* ===============================
+   CORES
+================================ */
+.red    { background: #e74c3c; }
+.green  { background: #2ecc71; }
+.blue   { background: #3498db; }
+.yellow { background: #f1c40f; }
+
+/* ===============================
+   RESPONSIVO
+================================ */
+@media (max-height: 600px) {
+  #controls {
+    height: 80px;
+  }
+
+  .color-btn {
+    width: 54px;
+    height: 54px;
+  }
+}
