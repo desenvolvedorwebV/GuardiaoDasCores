@@ -49,14 +49,34 @@ body {
   background: #999;
 }
 
-#wire {
+#wires {
+  position: absolute;
+  inset: 0;
+  pointer-events: auto;
+}
+
+.wire {
   position: absolute;
   top: 0;
-  bottom: 10%;
-  left: 50%;
-  width: 6px;
-  background: #999;
+  bottom: 0;
+  width: 32px;               /* área de toque */
+  background: transparent;  /* invisível */
   transform: translateX(-50%);
+}
+
+.wire::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: rgba(255,255,255,0.15);
+  transform: translateX(-50%);
+}
+
+.wire.active::after {
+  background: rgba(255,255,255,0.4);
 }
 
 .square {

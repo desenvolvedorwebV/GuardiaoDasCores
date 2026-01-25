@@ -13,6 +13,10 @@ const levels = [
     totalBlocks: 10,
     colors: { red: 1 },
     timeLimit: null,
+    
+    lanes: {
+      count: 1
+    },
 
     modifiers: {
       fallSpeed: {
@@ -250,6 +254,22 @@ const levels = [
       to: 350
     }
   }
+},
+{
+  id: 13,
+  type: LEVEL_TYPES.CLEAR_ALL,
+  totalBlocks: 10,
+  colors: { red: 1 },
+  timeLimit: null,
+
+  lanes: {
+    count: 2
+  },
+
+  modifiers: {
+    fallSpeed: { type: "static", value: 0.4 },
+    spawnRate: { type: "static", interval: 1400 }
+  }
 }
 ];
 
@@ -268,7 +288,9 @@ const projectileSpeed = 5;
 // ===============================
 // GAME STATE
 // ===============================
-let stack = [];
+let lanes = [];
+let activeLaneIndex = 0;
+
 let projectiles = [];
 let gameOver = false;
 
@@ -323,6 +345,10 @@ function getTimeRatio() {
   return 1 - (timeLeft / currentLevel.timeLimit);
 }
 
+function getTotalFallingBlocks() {
+  return lanes.reduce((sum, lane) => sum + lane.stack.length, 0);
+}
+
 // ===============================
 // MODIFIER SYSTEM
 // ===============================
@@ -359,10 +385,50 @@ function getSpawnInterval() {
 // ===============================
 // GAME FLOW
 // ===============================
+function renderWires() {
+  const container = document.getElementById("wires");
+  container.innerHTML = "";
+
+  lanes.forEach((lane, index) => {
+    const el = document.createElement("div");
+    el.className = "wire" + (index === activeLaneIndex ? " active" : "");
+    el.style.left = lane.x + "px";
+
+    // 👇 ESSENCIAL: tocar muda a lane ativa
+    el.addEventListener("pointerdown", () => {
+      activeLaneIndex = index;
+      renderWires();
+    });
+
+    container.appendChild(el);
+  });
+}
+
+function createLanes() {
+  const count = currentLevel.lanes?.count ?? 1;
+
+  lanes = [];
+  activeLaneIndex = 0;
+
+  const gameWidth = game.clientWidth;
+  const spacing = gameWidth / (count + 1);
+
+  for (let i = 0; i < count; i++) {
+    lanes.push({
+      id: i,
+      x: spacing * (i + 1),
+      stack: []
+    });
+  }
+
+  renderWires();
+}
+
 function loadLevel(index) {
-  stack.forEach(s => s.el.remove());
+  lanes.forEach(l => l.stack.forEach(s => s.el.remove()));
   projectiles.forEach(p => p.el.remove());
-  stack = [];
+
+  lanes = [];
   projectiles = [];
 
   clearInterval(levelTimer);
@@ -376,6 +442,8 @@ function loadLevel(index) {
 
   generateButtons(currentLevel);
   updateHUD();
+
+  createLanes(); // 👈 NOVO
 
   if (currentLevel.type === LEVEL_TYPES.TIME_ATTACK) {
     startTimer();
@@ -409,7 +477,10 @@ function scheduleNextSpawn() {
 
 function spawnSquare() {
   if (gameOver) return;
-  if (stack.length >= blocksToClear) return;
+
+  if (getTotalFallingBlocks() >= blocksToClear) return;
+
+  const lane = lanes[Math.floor(Math.random() * lanes.length)];
 
   const colorPool = [];
 
@@ -424,10 +495,11 @@ function spawnSquare() {
 
   const el = document.createElement("div");
   el.className = `square ${color}`;
+  el.style.left = lane.x + "px";
   el.style.top = "-30px";
   game.appendChild(el);
 
-  stack.push({ el, color, y: -30 });
+  lane.stack.push({ el, color, y: -30 });
 }
 
 // ===============================
@@ -447,17 +519,20 @@ function generateButtons(level) {
 function shoot(color) {
   if (gameOver) return;
 
+  const lane = lanes[activeLaneIndex];
   const controlZoneTop = controls.offsetTop;
 
   const el = document.createElement("div");
   el.className = `square ${color}`;
+  el.style.left = lane.x + "px";
   el.style.top = (controlZoneTop - SIZE) + "px";
   game.appendChild(el);
 
   projectiles.push({
     el,
     color,
-    y: controlZoneTop - SIZE
+    y: controlZoneTop - SIZE,
+    laneId: lane.id
   });
 }
 
@@ -482,7 +557,8 @@ function update() {
 
   const fallSpeed = getFallSpeed();
 
-  for (const s of stack) {
+for (const lane of lanes) {
+  for (const s of lane.stack) {
     s.y += fallSpeed;
     s.el.style.top = s.y + "px";
 
@@ -491,42 +567,44 @@ function update() {
       return;
     }
   }
+}
 
   for (let i = projectiles.length - 1; i >= 0; i--) {
     const p = projectiles[i];
     p.y -= projectileSpeed;
     p.el.style.top = p.y + "px";
 
-    if (stack.length > 0) {
-      const head = stack[0];
+const lane = lanes[p.laneId];
+if (!lane || lane.stack.length === 0) continue;
 
-      if (rectsOverlap(p, head)) {
-        if (p.color === head.color) {
-          explode(p.el);
-          explode(head.el);
-          stack.shift();
+const head = lane.stack[0];
 
-          blocksToClear--;
-          updateHUD();
+if (rectsOverlap(p, head)) {
+  if (p.color === head.color) {
+    explode(p.el);
+    explode(head.el);
+    lane.stack.shift();
 
-          if (blocksToClear <= 0) {
-            nextLevel();
-          }
-        } else {
-          stack.unshift({
-            el: p.el,
-            color: p.color,
-            y: p.y
-          });
+    blocksToClear--;
+    updateHUD();
 
-          blocksToClear++;
-          updateHUD();
-        }
-
-        projectiles.splice(i, 1);
-        continue;
-      }
+    if (blocksToClear <= 0) {
+      nextLevel();
     }
+  } else {
+    lane.stack.unshift({
+      el: p.el,
+      color: p.color,
+      y: p.y
+    });
+
+    blocksToClear++;
+    updateHUD();
+  }
+
+  projectiles.splice(i, 1);
+  continue;
+}
 
     if (p.y < -SIZE) {
       p.el.remove();
