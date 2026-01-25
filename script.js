@@ -1,3 +1,6 @@
+// ===============================
+// LEVEL DEFINITIONS
+// ===============================
 const LEVEL_TYPES = {
   CLEAR_ALL: "clear_all",
   TIME_ATTACK: "time_attack"
@@ -8,32 +11,263 @@ const levels = [
     id: 1,
     type: LEVEL_TYPES.CLEAR_ALL,
     totalBlocks: 10,
-    colors: { red: 1},
-    timeLimit: null
+    colors: { red: 1 },
+    timeLimit: null,
+
+    modifiers: {
+      fallSpeed: {
+        type: "static",
+        value: 0.4
+      },
+      spawnRate: {
+        type: "static",
+        interval: 1400
+      }
+    }
   },
   {
     id: 2,
     type: LEVEL_TYPES.CLEAR_ALL,
     totalBlocks: 15,
     colors: { red: 0.5, blue: 0.5 },
-    timeLimit: null
+    timeLimit: null,
+
+    modifiers: {
+      fallSpeed: {
+        type: "byProgress",
+        from: 0.4,
+        to: 0.8
+      },
+      spawnRate: {
+        type: "byProgress",
+        from: 1600,
+        to: 900
+      }
+    }
   },
+{
+  id: 3,
+  type: LEVEL_TYPES.CLEAR_ALL,
+  totalBlocks: 22,
+  colors: { red: 0.5, blue: 0.5 },
+  timeLimit: null,
+
+  modifiers: {
+    fallSpeed: {
+      type: "byProgress",
+      from: 0.6,
+      to: 1.0
+    },
+    spawnRate: {
+      type: "static",
+      interval: 1100
+    }
+  }
+},
+{
+  id: 4,
+  type: LEVEL_TYPES.CLEAR_ALL,
+  totalBlocks: 26,
+  colors: { green: 0.5, yellow: 0.5 },
+  timeLimit: null,
+
+  modifiers: {
+    fallSpeed: { type: "static", value: 0.85 },
+    spawnRate: {
+      type: "byProgress",
+      from: 1000,
+      to: 700
+    }
+  }
+},
+{
+  id: 5,
+  type: LEVEL_TYPES.CLEAR_ALL,
+  totalBlocks: 28,
+  colors: { red: 0.34, blue: 0.33, green: 0.33 },
+  timeLimit: null,
+
+  modifiers: {
+    fallSpeed: {
+      type: "byProgress",
+      from: 0.75,
+      to: 1.1
+    },
+    spawnRate: { type: "static", interval: 900 }
+  }
+},
   {
-    id: 3,
+    id: 6,
     type: LEVEL_TYPES.TIME_ATTACK,
     totalBlocks: 20,
     colors: { red: 0.4, green: 0.3, blue: 0.3 },
-    timeLimit: 45
+    timeLimit: 45,
+
+    modifiers: {
+      fallSpeed: {
+        type: "byTime",
+        from: 0.6,
+        to: 1.2
+      },
+      spawnRate: {
+        type: "byTime",
+        from: 1200,
+        to: 600
+      }
+    }
+  },
+{
+  id: 7,
+  type: LEVEL_TYPES.TIME_ATTACK,
+  totalBlocks: 32,
+  colors: { red: 0.4, blue: 0.3, yellow: 0.3 },
+  timeLimit: 48,
+
+  modifiers: {
+    fallSpeed: {
+      type: "byTime",
+      from: 0.8,
+      to: 1.5
+    },
+    spawnRate: {
+      type: "byTime",
+      from: 1000,
+      to: 550
+    }
   }
+},
+{
+  id: 8,
+  type: LEVEL_TYPES.CLEAR_ALL,
+  totalBlocks: 30,
+  colors: {
+    red: 0.25,
+    blue: 0.25,
+    green: 0.25,
+    yellow: 0.25
+  },
+  timeLimit: null,
+
+  modifiers: {
+    fallSpeed: { type: "static", value: 0.95 },
+    spawnRate: {
+      type: "byProgress",
+      from: 800,
+      to: 500
+    }
+  }
+},
+{
+  id: 9,
+  type: LEVEL_TYPES.CLEAR_ALL,
+  totalBlocks: 34,
+  colors: {
+    red: 0.2,
+    blue: 0.2,
+    green: 0.2,
+    yellow: 0.2,
+    purple: 0.2
+  },
+  timeLimit: null,
+
+  modifiers: {
+    fallSpeed: {
+      type: "byProgress",
+      from: 0.9,
+      to: 1.3
+    },
+    spawnRate: {
+      type: "static",
+      interval: 650
+    }
+  }
+},
+{
+  id: 10,
+  type: LEVEL_TYPES.TIME_ATTACK,
+  totalBlocks: 30,
+  colors: {
+    cyan: 0.25,
+    magenta: 0.25,
+    orange: 0.25,
+    purple: 0.25
+  },
+  timeLimit: 36,
+
+  modifiers: {
+    fallSpeed: {
+      type: "byTime",
+      from: 1.0,
+      to: 1.7
+    },
+    spawnRate: {
+      type: "static",
+      interval: 650
+    }
+  }
+},
+{
+  id: 11,
+  type: LEVEL_TYPES.CLEAR_ALL,
+  totalBlocks: 42,
+  colors: {
+    red: 0.2,
+    blue: 0.2,
+    green: 0.2,
+    yellow: 0.2,
+    orange: 0.2
+  },
+  timeLimit: null,
+
+  modifiers: {
+    fallSpeed: { type: "static", value: 0.9 },
+    spawnRate: { type: "static", interval: 750 }
+  }
+},
+{
+  id: 12,
+  type: LEVEL_TYPES.TIME_ATTACK,
+  totalBlocks: 50,
+  colors: {
+    red: 0.15,
+    blue: 0.15,
+    green: 0.15,
+    yellow: 0.15,
+    purple: 0.2,
+    orange: 0.2
+  },
+  timeLimit: 60,
+
+  modifiers: {
+    fallSpeed: {
+      type: "byTime",
+      from: 0.9,
+      to: 1.9
+    },
+    spawnRate: {
+      type: "byTime",
+      from: 900,
+      to: 350
+    }
+  }
+}
 ];
 
+// ===============================
+// DOM REFERENCES
+// ===============================
 const game = document.getElementById("game");
 const controls = document.getElementById("controls");
 
+// ===============================
+// CONSTANTS
+// ===============================
 const SIZE = 28;
-const speed = 0.5;
 const projectileSpeed = 5;
 
+// ===============================
+// GAME STATE
+// ===============================
 let stack = [];
 let projectiles = [];
 let gameOver = false;
@@ -43,8 +277,13 @@ let currentLevel = null;
 
 let blocksToClear = 0;
 let timeLeft = 0;
-let levelTimer = null;
 
+let levelTimer = null;
+let spawnTimer = null;
+
+// ===============================
+// HUD
+// ===============================
 function formatTime(seconds) {
   const m = String(Math.floor(seconds / 60)).padStart(2, "0");
   const s = String(seconds % 60).padStart(2, "0");
@@ -68,27 +307,58 @@ function updateHUD() {
   }
 }
 
-
-function touchesDangerLine(squareEl) {
-  const squareRect = squareEl.getBoundingClientRect();
-  const dangerRect = document
-    .getElementById("danger-line")
-    .getBoundingClientRect();
-
-  return squareRect.bottom >= dangerRect.top;
+// ===============================
+// UTILITIES
+// ===============================
+function lerp(a, b, t) {
+  return a + (b - a) * Math.max(0, Math.min(1, t));
 }
 
-function generateButtons(level) {
-  controls.innerHTML = "";
-
-  Object.keys(level.colors).forEach(color => {
-    const btn = document.createElement("button");
-    btn.className = `color-btn ${color}`;
-    btn.addEventListener("click", () => shoot(color));
-    controls.appendChild(btn);
-  });
+function getProgressRatio() {
+  return 1 - (blocksToClear / currentLevel.totalBlocks);
 }
 
+function getTimeRatio() {
+  if (!currentLevel.timeLimit) return 0;
+  return 1 - (timeLeft / currentLevel.timeLimit);
+}
+
+// ===============================
+// MODIFIER SYSTEM
+// ===============================
+function resolveModifier(mod) {
+  if (!mod) return null;
+
+  if (mod.type === "static") {
+    return mod.value ?? mod.interval;
+  }
+
+  let t = 0;
+
+  if (mod.type === "byProgress") {
+    t = getProgressRatio();
+  }
+
+  if (mod.type === "byTime") {
+    t = getTimeRatio();
+  }
+
+  return lerp(mod.from, mod.to, t);
+}
+
+function getFallSpeed() {
+  const mod = currentLevel.modifiers?.fallSpeed;
+  return resolveModifier(mod) ?? 0.5;
+}
+
+function getSpawnInterval() {
+  const mod = currentLevel.modifiers?.spawnRate;
+  return resolveModifier(mod) ?? 1400;
+}
+
+// ===============================
+// GAME FLOW
+// ===============================
 function loadLevel(index) {
   stack.forEach(s => s.el.remove());
   projectiles.forEach(p => p.el.remove());
@@ -96,13 +366,12 @@ function loadLevel(index) {
   projectiles = [];
 
   clearInterval(levelTimer);
+  clearTimeout(spawnTimer);
+
   gameOver = false;
 
   currentLevel = levels[index];
-
-  // 🎯 começa com o objetivo cheio
   blocksToClear = currentLevel.totalBlocks;
-
   timeLeft = currentLevel.timeLimit;
 
   generateButtons(currentLevel);
@@ -111,11 +380,10 @@ function loadLevel(index) {
   if (currentLevel.type === LEVEL_TYPES.TIME_ATTACK) {
     startTimer();
   }
+
+  scheduleNextSpawn();
 }
 
-// ===============================
-// TIMER
-// ===============================
 function startTimer() {
   levelTimer = setInterval(() => {
     timeLeft--;
@@ -128,13 +396,21 @@ function startTimer() {
 }
 
 // ===============================
-// SPAWN DE BLOCOS
+// SPAWN SYSTEM (DINÂMICO)
 // ===============================
+function scheduleNextSpawn() {
+  if (gameOver) return;
+
+  spawnTimer = setTimeout(() => {
+    spawnSquare();
+    scheduleNextSpawn();
+  }, getSpawnInterval());
+}
+
 function spawnSquare() {
   if (gameOver) return;
-  
   if (stack.length >= blocksToClear) return;
-  
+
   const colorPool = [];
 
   Object.entries(currentLevel.colors).forEach(([color, ratio]) => {
@@ -154,6 +430,20 @@ function spawnSquare() {
   stack.push({ el, color, y: -30 });
 }
 
+// ===============================
+// CONTROLS
+// ===============================
+function generateButtons(level) {
+  controls.innerHTML = "";
+
+  Object.keys(level.colors).forEach(color => {
+    const btn = document.createElement("button");
+    btn.className = `color-btn ${color}`;
+    btn.addEventListener("click", () => shoot(color));
+    controls.appendChild(btn);
+  });
+}
+
 function shoot(color) {
   if (gameOver) return;
 
@@ -171,16 +461,29 @@ function shoot(color) {
   });
 }
 
+// ===============================
+// COLLISION & UPDATE
+// ===============================
 function rectsOverlap(a, b) {
   return a.y + SIZE >= b.y && a.y <= b.y + SIZE;
+}
+
+function touchesDangerLine(squareEl) {
+  const squareRect = squareEl.getBoundingClientRect();
+  const dangerRect = document
+    .getElementById("danger-line")
+    .getBoundingClientRect();
+
+  return squareRect.bottom >= dangerRect.top;
 }
 
 function update() {
   if (gameOver) return;
 
-  // blocos descendo
+  const fallSpeed = getFallSpeed();
+
   for (const s of stack) {
-    s.y += speed;
+    s.y += fallSpeed;
     s.el.style.top = s.y + "px";
 
     if (touchesDangerLine(s.el)) {
@@ -188,7 +491,7 @@ function update() {
       return;
     }
   }
-  
+
   for (let i = projectiles.length - 1; i >= 0; i--) {
     const p = projectiles[i];
     p.y -= projectileSpeed;
@@ -198,7 +501,6 @@ function update() {
       const head = stack[0];
 
       if (rectsOverlap(p, head)) {
-
         if (p.color === head.color) {
           explode(p.el);
           explode(head.el);
@@ -210,7 +512,6 @@ function update() {
           if (blocksToClear <= 0) {
             nextLevel();
           }
-
         } else {
           stack.unshift({
             el: p.el,
@@ -236,6 +537,9 @@ function update() {
   requestAnimationFrame(update);
 }
 
+// ===============================
+// EFFECTS & FLOW
+// ===============================
 function explode(el) {
   el.style.transition = "transform 0.2s, opacity 0.2s";
   el.style.transform = "scale(1.5)";
@@ -246,11 +550,14 @@ function explode(el) {
 function endGame() {
   gameOver = true;
   clearInterval(levelTimer);
+  clearTimeout(spawnTimer);
   alert("Game Over!");
 }
 
 function nextLevel() {
   clearInterval(levelTimer);
+  clearTimeout(spawnTimer);
+
   currentLevelIndex++;
 
   if (currentLevelIndex >= levels.length) {
@@ -261,6 +568,8 @@ function nextLevel() {
   loadLevel(currentLevelIndex);
 }
 
+// ===============================
+// START
+// ===============================
 loadLevel(0);
-setInterval(spawnSquare, 1400);
 update();
