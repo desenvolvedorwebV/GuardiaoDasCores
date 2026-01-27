@@ -1,0 +1,23 @@
+{
+  "id": 8,
+  "type": "LEVEL_TYPES.CLEAR_ALL",
+  "totalBlocks": 30,
+  "colors": {
+    "red": 0.25,
+    "blue": 0.25,
+    "green": 0.25,
+    "yellow": 0.25
+  },
+  "timeLimit": null,
+  "modifiers": {
+    "fallSpeed": {
+      "type": "static",
+      "value": 0.95
+    },
+    "spawnRate": {
+      "type": "byProgress",
+      "from": 800,
+      "to": 500
+    }
+  }
+}
