@@ -1,0 +1,23 @@
+{
+  "id": 10,
+  "type": "LEVEL_TYPES.TIME_ATTACK",
+  "totalBlocks": 30,
+  "colors": {
+    "red": 0.25,
+    "green": 0.25,
+    "blue": 0.25,
+    "yellow": 0.25
+  },
+  "timeLimit": 36,
+  "modifiers": {
+    "fallSpeed": {
+      "type": "byTime",
+      "from": 1.0,
+      "to": 1.7
+    },
+    "spawnRate": {
+      "type": "static",
+      "interval": 650
+    }
+  }
+}
