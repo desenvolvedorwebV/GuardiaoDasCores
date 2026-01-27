@@ -349,5 +349,9 @@ function nextLevel() {
 // ===============================
 // START
 // ===============================
-loadLevel(currentLevelNumber);
-update();
+async function startGame() {
+  await loadLevel(currentLevelNumber);
+  update();
+}
+
+startGame();
