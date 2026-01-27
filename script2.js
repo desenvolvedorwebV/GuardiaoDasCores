@@ -40,8 +40,8 @@ let spawnTimer = null;
 // ===============================
 async function loadLevelFile(levelNumber) {
   const fileName = String(levelNumber).padStart(4, "0");
-  const path = 'https://desenvolvedorwebv.github.io/GuardiaoDasCores/levels/0001.gcnvl';
-
+  const path = `https://raw.githubusercontent.com/desenvolvedorwebV/GuardiaoDasCores/main/levels/${fileName}.gcnvl`;
+  
   try {
     const response = await fetch(path);
     if (!response.ok) throw new Error("Level não encontrado");
@@ -279,45 +279,58 @@ function touchesDangerLine(el) {
 }
 
 function update() {
-  if (gameOver) return;
+  if (!gameOver && currentLevel) {
 
-  const fallSpeed = getFallSpeed();
+    const fallSpeed = getFallSpeed();
 
-  for (const lane of lanes) {
-    for (const s of lane.stack) {
-      s.y += fallSpeed;
-      s.el.style.top = s.y + "px";
-      if (touchesDangerLine(s.el)) return endGame();
-    }
-  }
-
-  for (let i = projectiles.length - 1; i >= 0; i--) {
-    const p = projectiles[i];
-    p.y -= projectileSpeed;
-    p.el.style.top = p.y + "px";
-
-    const lane = lanes[p.laneId];
-    const head = lane?.stack[0];
-    if (!head) continue;
-
-    if (rectsOverlap(p, head)) {
-      if (p.color === head.color) {
-        explode(p.el);
-        explode(head.el);
-        lane.stack.shift();
-        blocksToClear--;
-      } else {
-        lane.stack.unshift({ el: p.el, color: p.color, y: p.y });
-        blocksToClear++;
+    for (const lane of lanes) {
+      for (const s of lane.stack) {
+        s.y += fallSpeed;
+        s.el.style.top = s.y + "px";
+        if (touchesDangerLine(s.el)) {
+          endGame();
+          break;
+        }
       }
-      updateHUD();
-      projectiles.splice(i, 1);
-      if (blocksToClear <= 0) nextLevel();
     }
 
-    if (p.y < -SIZE) {
-      p.el.remove();
-      projectiles.splice(i, 1);
+    for (let i = projectiles.length - 1; i >= 0; i--) {
+      const p = projectiles[i];
+      p.y -= projectileSpeed;
+      p.el.style.top = p.y + "px";
+
+      const lane = lanes[p.laneId];
+      const head = lane?.stack[0];
+      if (!head) continue;
+
+      if (rectsOverlap(p, head)) {
+        if (p.color === head.color) {
+          explode(p.el);
+          explode(head.el);
+          lane.stack.shift();
+          blocksToClear--;
+        } else {
+          lane.stack.unshift({
+            el: p.el,
+            color: p.color,
+            y: p.y
+          });
+          blocksToClear++;
+        }
+
+        updateHUD();
+        projectiles.splice(i, 1);
+
+        if (blocksToClear <= 0) {
+          nextLevel();
+          break;
+        }
+      }
+
+      if (p.y < -SIZE) {
+        p.el.remove();
+        projectiles.splice(i, 1);
+      }
     }
   }
 
@@ -349,9 +362,5 @@ function nextLevel() {
 // ===============================
 // START
 // ===============================
-async function startGame() {
-  await loadLevel(currentLevelNumber);
-  update();
-}
-
-startGame();
+loadLevel(currentLevelNumber);
+update();
