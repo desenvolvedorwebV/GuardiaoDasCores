@@ -1,0 +1,23 @@
+{
+  "id": 1,
+  "type": "clear_all",
+  "lanes": { "count": 5 },
+  "totalBlocks": 16,
+  "colors": { "red": 1 },
+
+  "pattern": {
+    "color": "red",
+    "rows": [
+      [1,0,0,0,0],
+      [1,0,0,0,0],
+      [1,1,1,1,0],
+      [1,0,0,1,0],
+      [1,0,0,0,1]
+    ]
+  },
+
+  "modifiers": {
+    "fallSpeed": { "type": "static", "value": 0.5 },
+    "spawnRate": { "type": "static", "interval": 900 }
+  }
+}
