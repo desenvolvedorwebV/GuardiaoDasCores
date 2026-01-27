@@ -40,7 +40,7 @@ let spawnTimer = null;
 // ===============================
 async function loadLevelFile(levelNumber) {
   const fileName = String(levelNumber).padStart(4, "0");
-  const path = `levels/${fileName}.gcnvl`;
+  const path = 'https://desenvolvedorwebv.github.io/GuardiaoDasCores/levels/0001.gcnvl';
 
   try {
     const response = await fetch(path);
