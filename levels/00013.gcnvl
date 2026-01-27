@@ -1,0 +1,22 @@
+{
+  "id": 13,
+  "type": "LEVEL_TYPES.CLEAR_ALL",
+  "totalBlocks": 10,
+  "colors": {
+    "red": 1
+  },
+  "timeLimit": null,
+  "lanes": {
+    "count": 2
+  },
+  "modifiers": {
+    "fallSpeed": {
+      "type": "static",
+      "value": 0.4
+    },
+    "spawnRate": {
+      "type": "static",
+      "interval": 1400
+    }
+  }
+}
