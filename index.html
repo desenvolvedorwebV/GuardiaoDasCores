@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+  />
+  <title>Guardião das Cores</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <div id="app">
+
+    <!-- MENU INICIAL -->
+    <div id="menu">
+      <div class="sem-gap" id="loading">🎨</div>
+      <div class="game-title">
+        Guardião das Cores
+      </div>
+      <button class="menu-btn" id="startGameBtn">
+        Jogar
+      </button>
+      <button class="menu-btn secondary" id="settingsBtn">
+        Configurações
+      </button>
+    </div>
+
+    <!-- HUD -->
+    <div id="hud">
+      <div id="hud-level">Nível 1</div>
+      <div id="hud-blocks">Blocos: 10</div>
+      <div id="hud-time">⏱️ 00:00</div>
+    </div>
+
+    <!-- ÁREA DO JOGO -->
+    <div id="game">
+      <div id="danger-line"></div>
+      <div id="wires"></div>
+    </div>
+
+    <!-- CONTROLES -->
+    <div id="controls"></div>
+
+    <!-- CRÉDITOS -->
+    <div id="credits">©2026 Viniciusav</div>
+
+  </div>
+
+  <script src="script2.js"></script>
+</body>
+</html>

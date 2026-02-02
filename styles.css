@@ -1,0 +1,241 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  user-select: none;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+}
+
+#app {
+  width: 100%;
+  max-width: 420px;
+  height: 100svh;
+  display: grid;
+  grid-template-rows: 0.5fr 7fr 2.5fr 0.5fr;
+  background: #1b1b1b;
+}
+
+#hud {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  align-items: center;
+  text-align: center;
+
+  background: rgba(0, 0, 0, 0.85);
+  color: white;
+  font-size: 0.8rem;
+  z-index: 10;
+}
+
+#game {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  background: #1b1b1b;
+}
+
+#danger-line {
+  position: absolute;
+  bottom: 10%;
+  width: 100%;
+  height: 4px;
+  background: #999;
+}
+
+#wires {
+  position: absolute;
+  inset: 0;
+  pointer-events: auto;
+}
+
+.wire {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 32px;               /* área de toque */
+  background: transparent;  /* invisível */
+  transform: translateX(-50%);
+}
+
+.wire::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: rgba(255,255,255,0.15);
+  transform: translateX(-50%);
+}
+
+.wire.active::after {
+  background: rgba(255,255,255,0.4);
+}
+
+.square {
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 6px;
+  background-clip: padding-box;
+  border: 1px solid white;
+}
+
+#controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+
+  background: #000;
+  padding-bottom: env(safe-area-inset-bottom);
+  z-index: 10;
+  gap: 10px;
+}
+
+.color-btn {
+  flex: 1 1 calc(20% - 10px); /* 5 botões por linha, considerando o gap */
+  max-width: 72px;
+  aspect-ratio: 1 / 1;
+
+  border-radius: 50%;
+  border: none;
+  outline: none;
+
+  box-shadow:
+    inset 0 0 0 3px rgba(255,255,255,0.4),
+    0 4px 10px rgba(0,0,0,0.6);
+
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.color-btn:active {
+  transform: scale(0.9);
+  box-shadow:
+    inset 0 0 0 3 rgba(255,255,255,0.6),
+    0 2 6 rgba(0,0,0,0.8);
+}
+
+.red     { background: #e74c3c; } /* vermelho */
+.green   { background: #2ecc71; } /* verde */
+.blue    { background: #3498db; } /* azul */
+.yellow  { background: #f1c40f; } /* amarelo */
+.orange  { background: #e67e22; } /* laranja */
+.purple  { background: #9b59b6; } /* roxo */
+.cyan    { background: #1abc9c; } /* ciano/verde-água */
+.magenta { background: #e84393; } /* rosa forte */
+.brown   { background: #a0522d; } /* marrom quente */
+.grey    { background: #7f8c8d; } /* cinza médio */
+
+#credits {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 0.65rem;
+  color: #aaa;
+  background: #0b0b0b;
+}
+
+@media (max-height: 600px) {
+  .color-btn {
+    max-width: 56px;
+  }
+
+  #hud {
+    font-size: 0.7rem;
+  }
+}
+
+#menu {
+  position: absolute;
+  inset: 0;
+  z-index: 50;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  background: radial-gradient(
+    circle at top,
+    #2c2c2c,
+    #0f0f0f
+  );
+
+  color: white;
+  text-align: center;
+}
+
+#menu > *:not(.sem-gap) {
+  margin-bottom: 20px;
+}
+
+.game-title {
+  font-size: 1.8rem;
+  letter-spacing: 1px;
+  font-weight: bold;
+  color: #fff;
+  margin:0;
+}
+
+.game-title.gradient {
+  background: linear-gradient(135deg, #3498db, #2ecc71);
+  background-size: 100% 100%;
+  margin:0;
+  -webkit-background-clip: text;
+  background-clip: text;
+
+  color: transparent;                 
+  -webkit-text-fill-color: transparent;
+
+  animation: gradientMove 2s linear infinite;
+}
+
+@keyframes gradientMove {
+  from { background-position: 0% 50%; }
+  to   { background-position: 100% 50%; }
+}
+
+.menu-btn {
+  width: 70%;
+  max-width: 240px;
+  padding: 14px;
+
+  font-size: 1rem;
+  border-radius: 12px;
+  border: none;
+
+  background: linear-gradient(135deg, #3498db, #2ecc71);
+  color: #000;
+  font-weight: bold;
+
+  box-shadow: 0 6px 14px rgba(0,0,0,0.5);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.menu-btn:active {
+  transform: scale(0.95);
+  box-shadow: 0 3px 8px rgba(0,0,0,0.7);
+}
+
+.menu-btn.secondary {
+  background: #444;
+  color: #fff;
+}
+
+#loading {
+  font-size: 2rem;
+  letter-spacing: 1px;
+  font-weight: bold;
+  margin:0;
+}
